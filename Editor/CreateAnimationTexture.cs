@@ -96,7 +96,7 @@ namespace VertexAnimater {
             PrefabUtility.SaveAsPrefabAsset(go, folderPath + "/" + selection.name + ".prefab");
         }
 
-        private static bool TryGetActiveGameObject(out GameObject selection) {
+        protected static bool TryGetActiveGameObject(out GameObject selection) {
             selection = Selection.activeGameObject;
             if (selection != null)
                 return true;
@@ -108,24 +108,24 @@ namespace VertexAnimater {
             if (!EditorApplication.isPlaying)
                 EditorApplication.isPlaying = true;
         }
-        private static void StartCoroutine(GameObject go, IEnumerator coroutine) {
+        protected static void StartCoroutine(GameObject go, IEnumerator coroutine) {
             go.AddComponent<Dummy>().StartCoroutine(coroutine);
         }
 
-        private static void SaveAsset(Object obj, string path) {
+        protected static void SaveAsset(Object obj, string path) {
             AssetDatabase.CreateAsset(obj, path);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
 
-        private static string CreateTargetFolder(GameObject selection, string folderPath) {
+        protected static string CreateTargetFolder(GameObject selection, string folderPath) {
             var guid = AssetDatabase.CreateFolder(folderPath, selection.name);
             folderPath = AssetDatabase.GUIDToAssetPath(guid);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             return folderPath;
         }
-        private static string AssureExistAndGetRootFolder() {
+        protected static string AssureExistAndGetRootFolder() {
             var folderPath = DIR_ASSETS + "/" + DIR_ROOT;
             if (!Directory.Exists(folderPath)) {
                 AssetDatabase.CreateFolder(DIR_ASSETS, DIR_ROOT);
